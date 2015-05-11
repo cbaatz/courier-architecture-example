@@ -1,0 +1,24 @@
+/* This is thrown together to get something other than the default styles. */
+
+body, button {
+    padding-top: 5em;
+    font-family: 'Titillium Web', sans-serif;
+    text-align: center;
+}
+#app { text-align: center; }
+#app button, #app p {
+    font-size: 28px;
+}
+#app button {
+    color: #333;
+    background-color: rgb(125, 246, 132);
+    outline: none;
+    border: 0;
+    border-radius: 7px;
+    padding: 0.25em 0.5em;
+    line-height: 1.25em;
+    margin: 0 0.5em;
+}
+#app button:hover { cursor: pointer; }
+#app button:active { background-color: #777; }
+#app p { display: inline-block; }

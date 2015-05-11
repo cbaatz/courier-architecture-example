@@ -1,0 +1,27 @@
+{
+  "name": "courier-example",
+  "version": "1.0.0",
+  "description": "A minimal example of the courier client architecture",
+  "scripts": {
+    "start": "node_modules/gulp/bin/gulp.js build && open dist/index.html"
+  },
+  "author": "Carl Baatz",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^9.0.8",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-livereload": "^3.8.0",
+    "reactify": "^1.1.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.1.2"
+  },
+  "paths": {
+    "html": "./src/html/*.html",
+    "css": "./src/css/*.css"
+  },
+  "dependencies": {
+    "kefir": "^2.3.0",
+    "react": "^0.13.3"
+  }
+}
