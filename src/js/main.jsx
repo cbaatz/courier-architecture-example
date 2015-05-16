@@ -113,7 +113,7 @@ function initHash(hashService, hashStates) {
      * instruction for state transition induced hash changes. */
 
     var muteNext = false;
-    function mute() {
+    function instruct() {
         if (muteNext) {
             muteNext = false;
             return false;
@@ -128,7 +128,7 @@ function initHash(hashService, hashStates) {
         window.location.hash = hash;
     }
 
-    hashService.plug(Kefir.fromEvents(window, "hashchange", getHash).filter(mute));
+    hashService.plug(Kefir.fromEvents(window, "hashchange", getHash).filter(instruct));
 
     /* To keep the initState and transition function unifrom we send the
      * initial browser hash as a normal instruction. To achieve this, we first
