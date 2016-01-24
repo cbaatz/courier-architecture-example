@@ -4,55 +4,46 @@ var gulp       = require('gulp');
 var livereload = require('gulp-livereload');
 var source     = require('vinyl-source-stream');
 var watchify   = require('watchify');
-var package    = require('package.json');
+var package    = require('./package.json');
 
 var bundler = browserify();
 bundler.add('./src/js/main.jsx');
 bundler.transform('reactify', { es6: true });
 
-gulp.task("build", function () {
-    var path = './dist';
-    del.sync(path);
+var path = "./public";
 
-    writeJS(path, bundler);
-    writeHTML(path);
-    writeCSS(path);
-});
+gulp.task("default", ["watch", "html", "css", "js"]);
+gulp.task("build", ["html", "css", "js"]);
 
 gulp.task("watch", function () {
-    var path = "./public";
-    del.sync(path);
-    bundler = watchify(bundler);
+    var watcher = watchify(bundler);
+    watcher.bundle();
+    watcher.on("update",  bundleApp.bind(null, watcher));
 
-    bundler.on("update", function () {
-        writeJS(path, bundler).pipe(livereload());
-    });
-    gulp.watch(package.paths.html, function () {
-        writeHTML(path).pipe(livereload());
-    });
-    gulp.watch(package.paths.css, function () {
-        writeCSS(path).pipe(livereload());
-    });
-
-    writeJS(path, bundler);
-    writeHTML(path);
-    writeCSS(path);
+    gulp.watch(package.paths.html, ["html"]);
+    gulp.watch(package.paths.css,  ["css"]);
+    gulp.watch(package.paths.css,  ["css"]);
 
     livereload.listen();
 });
 
-function writeJS (path, bundler) {
-    return bundler.bundle()
-        .pipe(source('main.js'))
-        .pipe(gulp.dest(path));
-}
+gulp.task("js", bundleApp.bind(null, bundler));
 
-function writeHTML (path) {
+gulp.task("html", function () {
     return gulp.src(package.paths.html)
-        .pipe(gulp.dest(path));
-}
+    .pipe(gulp.dest(path))
+    .pipe(livereload());
+});
 
-function writeCSS (path) {
+gulp.task("css", function () {
     return gulp.src(package.paths.css)
-        .pipe(gulp.dest(path));
+    .pipe(gulp.dest(path))
+    .pipe(livereload());
+});
+
+function bundleApp(bundler) {
+    return bundler.bundle()
+    .pipe(source('main.js'))
+    .pipe(gulp.dest(path))
+    .pipe(livereload());
 }
